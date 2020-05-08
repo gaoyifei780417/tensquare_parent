@@ -18,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/lable")
+@CrossOrigin//解决跨域问题
 public class LabelController {
     @Autowired
     private LableService lableService;
@@ -29,8 +30,10 @@ public class LabelController {
     }
     @PostMapping
     public Result add(@RequestBody Lable lable){
+            lable=null;
+            lable.getLabelname();
         lableService.add(lable);
-        return new Result(true, StatusCode.OK,"添加成功!");
+            return new Result(true, StatusCode.OK,"添加成功!");
     }
     @GetMapping
     public Result list(){
