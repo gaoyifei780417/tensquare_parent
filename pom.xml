@@ -8,7 +8,7 @@
 		<module>tensquare_base</module>
 	</modules>
 
-
+	<!--管理所有子项目springboot版本-->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

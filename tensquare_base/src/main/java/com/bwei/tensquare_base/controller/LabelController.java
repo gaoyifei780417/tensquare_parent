@@ -67,4 +67,14 @@ public class LabelController {
         List<Label> lables=lableService.findSerach(lable);
         return new Result(true,StatusCode.OK,"查询成功",lables);
     }
+    /**
+     * 分页
+     *
+     */
+    @RequestMapping(value = "/search/{page}/{size}",method = RequestMethod.POST)
+    public Result findSerachPage(@RequestBody Lable lable,@PathVariable Integer page,@PathVariable  Integer size){
+
+        return new Result(true,StatusCode.OK,"查询成功", lableService.findSerach(lable,page,size));
+
+    }
 }

@@ -3,6 +3,8 @@ package com.bwei.tensquare_base.service;
 import com.bwei.tensquare_base.bean.Lable;
 import com.bwei.tensquare_base.dao.LableDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -80,5 +82,12 @@ public class LableService {
                 return cd.and(predicateList.toArray(new Predicate[predicateList.size()]));
             }
         };
+    }
+
+    public Page<Lable> findSerach(Lable lable, Integer page, Integer size) {
+
+        Specification specification = createSearchStatement(lable);
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        return lableDao.findAll(specification,pageRequest);
     }
 }
