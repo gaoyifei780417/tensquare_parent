@@ -3,10 +3,18 @@ package com.bwei.tensquare_base.service;
 import com.bwei.tensquare_base.bean.Lable;
 import com.bwei.tensquare_base.dao.LableDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,5 +52,33 @@ public class LableService {
     @Transactional
     public void delete(String id) {
         lableDao.deleteById(id);
+    }
+
+    @Modifying
+    public List<Label> findSerach(Lable lable) {
+        Specification specification=createSearchStatement(lable);
+
+        return lableDao.findAll(specification);
+    }
+
+    //构建查询语句
+    private Specification createSearchStatement(Lable lable) {
+        return new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cd) {
+                List<Predicate> predicateList = new ArrayList<>();
+                //拼接构造语句
+                if(!StringUtils.isEmpty(lable.getLabelname())){// lablename like
+                    predicateList.add(cd.like(root.get("labelname").as(String.class),"%"+lable.getLabelname()+"%"));
+                }
+                if(!StringUtils.isEmpty(lable.getState())){// state=?
+                    predicateList.add(cd.equal(root.get("state").as(String.class),lable.getState()));
+                }
+                if(!StringUtils.isEmpty(lable.getRecommend())){//recommend
+                    predicateList.add(cd.equal(root.get("recommend").as(String.class),lable.getRecommend()));
+                }
+                return cd.and(predicateList.toArray(new Predicate[predicateList.size()]));
+            }
+        };
     }
 }

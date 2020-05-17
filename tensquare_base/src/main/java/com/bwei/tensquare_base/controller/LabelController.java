@@ -7,6 +7,7 @@ import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -57,5 +58,13 @@ public class LabelController {
     public Result delete(@PathVariable("id") String id){
         lableService.delete(id);
         return new Result(true,StatusCode.OK,"删除成功!");
+    }
+    /**
+     * 根据条件查询城市列表
+     */
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    public Result findSerach(@RequestBody Lable lable){
+        List<Label> lables=lableService.findSerach(lable);
+        return new Result(true,StatusCode.OK,"查询成功",lables);
     }
 }
