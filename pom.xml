@@ -7,6 +7,7 @@
 		<module>tensquare_common</module>
 		<module>tensquare_base</module>
 		<module>tensquare_recruit</module>
+		<module>tensquare_qa</module>
 	</modules>
 
 	<!--管理所有子项目springboot版本-->
