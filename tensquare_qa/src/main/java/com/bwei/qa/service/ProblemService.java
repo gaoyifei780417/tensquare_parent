@@ -1,28 +1,21 @@
 package com.bwei.qa.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
-
+import com.bwei.qa.dao.ProblemDao;
+import com.bwei.qa.pojo.Problem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import util.IdWorker;
 
-import com.bwei.qa.dao.ProblemDao;
-import com.bwei.qa.pojo.Problem;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 服务层
@@ -154,4 +147,37 @@ public class ProblemService {
 
 	}
 
+	/**
+	 * 最新问答列表
+	 * @param labelid
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+    public Page<Problem> newlist(String labelid, Integer page, Integer size) {
+    	//先分页配置
+		PageRequest pageRequest = PageRequest.of(page - 1, size);
+		Page<Problem> newListByLabelId = problemDao.findNewListByLabelId(labelid, pageRequest);
+
+		return newListByLabelId;
+	}
+
+	/**
+	 * 热门问答列表
+	 */
+	public Page<Problem> hotlist(String labelid,Integer page,Integer size){
+		//分页配置
+		PageRequest pageRequest = PageRequest.of(page - 1, size);
+		Page<Problem> hotListByLabelId = problemDao.findHotListByLabelId(labelid, pageRequest);
+		return hotListByLabelId;
+	}
+	/**
+	 * 等待问答列表
+	 */
+	public Page<Problem> waitlist(String labelid,Integer page,Integer size){
+		//分页配置
+		PageRequest pageRequest = PageRequest.of(page - 1, size);
+		Page<Problem> waitListByLabelId = problemDao.findWaitListByLabelId(labelid, pageRequest);
+		return waitListByLabelId;
+	}
 }

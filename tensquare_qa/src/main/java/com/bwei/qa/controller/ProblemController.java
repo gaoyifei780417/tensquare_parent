@@ -96,5 +96,29 @@ public class ProblemController {
 		problemService.deleteById(id);
 		return new Result(true,StatusCode.OK,"删除成功");
 	}
-	
+	/**
+	 * 最新问答列表
+	 */
+	@GetMapping("/newlist/{labelid}/{page}/{size}")
+	public Result newlist(@PathVariable String labelid,@PathVariable Integer page,@PathVariable Integer size){
+		Page<Problem> pageList=problemService.newlist(labelid,page,size);
+		return new Result(true,StatusCode.OK,"查询成功",new PageResult(pageList.getTotalElements(),pageList.getContent()));
+	}
+	/**
+	 * 热门问答列表
+	 */
+	@GetMapping("/hotlist/{labelid}/{page}/{size}")
+	public Result hotlist(@PathVariable String labelid,@PathVariable Integer page,@PathVariable Integer size){
+		Page<Problem> pageList=problemService.hotlist(labelid,page,size);
+		return new Result(true,StatusCode.OK,"查询成功",new PageResult(pageList.getTotalElements(),pageList.getContent()));
+	}
+
+	/**
+	 * 等待问答列表
+	 */
+	@GetMapping("/waitlist/{labelid}/{page}/{size}")
+	public Result waitlist(@PathVariable String labelid,@PathVariable Integer page,@PathVariable Integer size){
+		Page<Problem> pageList=problemService.waitlist(labelid,page,size);
+		return new Result(true,StatusCode.OK,"查询成功",new PageResult(pageList.getTotalElements(),pageList.getContent()));
+	}
 }
